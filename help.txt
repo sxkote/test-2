@@ -1,0 +1,59 @@
+---- allow run node code files
+#!/usr/bin/env node
+
+---- 
+install: install-deps
+install-deps:
+	npm ci
+lint:
+    npx eslint .
+publish:
+    npm publish --dry-run
+
+
+---- run node file with args
+node index.js table.csv
+
+
+---- git ignore
+node_modules
+.vscode
+coverage
+
+
+---- file: .npmrc
+node-options=--experimental-vm-modules --no-warnings
+
+
+---- install eslist
+npm install eslint eslint-config-airbnb-base eslint-plugin-import --save-dev
+
+---- config eslint 
+npm init @eslint/config
+
+---- file: .eslintrc.yml
+plugins:
+  - jest
+
+env:
+  node: true
+
+extends:
+  - "airbnb-base"
+  - "plugin:jest/recommended"
+
+parserOptions:
+  ecmaVersion: latest
+
+rules:
+  linebreak-style: 0
+  no-console: 0
+  import/extensions:
+    - error
+    - ignorePackages
+    - js: always
+  no-underscore-dangle: [2, { "allow": ["__filename", "__dirname"] }]
+
+
+---- eslint exception:
+// eslint-disable-next-line no-param-reassign
